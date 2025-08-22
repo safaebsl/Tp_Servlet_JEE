@@ -33,6 +33,7 @@ public class BookServlet extends HttpServlet {
                 case "edit": showEditForm(request, response); break;
                 case "update": updateBook(request, response); break;
                 case "search": searchBook(request, response); break;
+                case "searchByYear":searchBookByYear(request, response); break;
                 default: listBooks(request, response); break;
             }
         } catch (Exception ex) {
@@ -40,7 +41,21 @@ public class BookServlet extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    private void searchBookByYear(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int annee = Integer.parseInt(request.getParameter("annee"));
+            List<Book> books = bookDAO.getBooksByYear(annee);
+            request.setAttribute("listBooks", books);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("searchBookByYear.jsp");
+            dispatcher.forward(request, response);
+        } catch (NumberFormatException e) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Année invalide");
+        }
+    }
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
     }

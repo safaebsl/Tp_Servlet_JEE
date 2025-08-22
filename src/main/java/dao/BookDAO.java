@@ -105,4 +105,34 @@ public class BookDAO {
         }
         return book;
     }
+    
+ // Recherche par année
+    public List<Book> getBooksByYear(int annee) {
+        List<Book> books = new ArrayList<>();
+        String sql = "SELECT * FROM books WHERE anneePublication=?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, annee);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Book book = new Book();
+                book.setId(rs.getInt("id"));
+                book.setTitre(rs.getString("titre"));
+                book.setAuteur(rs.getString("auteur"));
+                book.setIsbn(rs.getString("isbn"));
+                book.setAnneePublication(rs.getInt("anneePublication"));
+                book.setGenre(rs.getString("genre"));
+                books.add(book);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return books;
+    }
+
 }
