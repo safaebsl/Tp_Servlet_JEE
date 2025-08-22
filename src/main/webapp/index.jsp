@@ -12,5 +12,12 @@
         <input type="text" name="titre" placeholder="Rechercher par titre"/>
         <input type="submit" value="Rechercher"/>
     </form>
+	    <h2>Recherche par année</h2>
+	<form action="BookServlet" method="get">
+	    <input type="hidden" name="action" value="searchByYear"/>
+	    Annee: <input type="number" name="annee"/>
+	    <input type="submit" value="Rechercher"/>
+	</form>
+    
 </body>
 </html>
